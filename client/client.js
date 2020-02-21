@@ -46,6 +46,9 @@ const parseJSON = (xhr, content) => {
       case 401: //unauthorized
         content.innerHTML = `<b>Unauthorized to access this.</b>`
         break;
+      case 503: //Service unavailable
+        content.innerHTML = `Service Unavailable`;
+        break;
       default: //any other status code
         content.innerHTML = `Error code not implemented by client.`;
         break;
