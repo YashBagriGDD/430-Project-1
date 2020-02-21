@@ -87,4 +87,5 @@ const notFound = (request, response) => {
 module.exports = {
   getData,
   addData,
+  notFound,
 };
