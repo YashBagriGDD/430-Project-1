@@ -50,8 +50,8 @@ const handlePost = (request, response, parsedUrl) => {
 };
 
 const urlStruct = {
-  '/': htmlHandler.getIndex,
   '/style.css': htmlHandler.getCSS,
+  '/': htmlHandler.getIndex,
   '/bundle.js': htmlHandler.getBundle,
   '/getUser': jsonHandler.getUsers,
   notFound: jsonHandler.notFound,
