@@ -2,7 +2,7 @@
 // When node shuts down this will be cleared.
 // Same when your heroku app shuts down from inactivity
 // We will be working with databases in the next few weeks.
-const users = {};
+const cards = {};
 
 //function to respond with a json object
 //takes request, response, status code and object to send
@@ -20,26 +20,26 @@ const respondJSONMeta = (request, response, status) => {
 };
 
 //return user object as JSON
-const getUsers = (request, response) => {
+const getData = (request, response) => {
   const responseJSON = {
-    users,
+    cards,
   };
 
   respondJSON(request, response, 200, responseJSON);
 };
 
 //function to add a user from a POST body
-const addUser = (request, response, body) => {
+const addData = (request, response, body) => {
   //default json message
   const responseJSON = {
-    message: 'Name and age are both required.',
+    message: 'Title, description, and subject are required.',
   };
 
   //check to make sure we have both fields
   //We might want more validation than just checking if they exist
   //This could easily be abused with invalid types (such as booleans, numbers, etc)
   //If either are missing, send back an error message as a 400 badRequest
-  if (!body.name || !body.age) {
+  if (!body.title || !body.desc || !body.subject) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
@@ -49,16 +49,17 @@ const addUser = (request, response, body) => {
 
   //if that user's name already exists in our object
   //then switch to a 204 updated status
-  if (users[body.name]) {
+  if (cards[body.title]) {
     responseCode = 204;
   } else {
     //otherwise create an object with that name
-    users[body.name] = {};
+    cards[body.title] = {};
   }
 
   //add or update fields for this user name
-  users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  cards[body.title].title = body.title;
+  cards[body.title].desc = body.desc;
+  cards[body.title].subject = body.subject.toUpperCase();
 
   //if response is created, then set our created message
   //and sent response with a message
@@ -74,6 +75,6 @@ const addUser = (request, response, body) => {
 
 //public exports
 module.exports = {
-  getUsers,
-  addUser,
+  getData,
+  addData,
 };

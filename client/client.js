@@ -11,12 +11,17 @@ const parseJSON = (xhr, content) => {
       content.appendChild(p);
     }
     
-    //if users in response, add to screen
-    if(obj.users) {
-      const userList = document.createElement('p');
-      const users = JSON.stringify(obj.users);
-      userList.textContent = users;
-      content.appendChild(userList);
+    //if cards in response, add to screen
+    if(obj.cards) {
+      const filter = document.querySelector("#filterField");
+      for (let c in obj.cards) {
+        if (!filter.value || obj.cards[c].subject === filter.value.toUpperCase()) {
+          const cardList = document.createElement('p');
+          let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b>`
+          cardList.innerHTML += cardContent;
+          content.appendChild(cardList);
+        }
+      }
     }
   };
 
@@ -51,18 +56,19 @@ const parseJSON = (xhr, content) => {
   };
 
   //function to send our post request
-  const sendPost = (e, nameForm) => {
+  const sendPost = (e, dataField) => {
     //prevent the browser's default action (to send the form on its own)
     e.preventDefault();
     
     //grab the forms action (url to go to)
     //and method (HTTP method - POST in this case)
-    const nameAction = nameForm.getAttribute('action');
-    const nameMethod = nameForm.getAttribute('method');
+    const nameAction = dataField.getAttribute('action');
+    const nameMethod = dataField.getAttribute('method');
     
     //grab the form's name and age fields so we can check user input
-    const nameField = nameForm.querySelector('#nameField');
-    const ageField = nameForm.querySelector('#ageField');
+    const titleField = dataField.querySelector('#titleField');
+    const descField = dataField.querySelector('#descField');
+    const subjectField = dataField.querySelector('#subjectField');
     
     //create a new Ajax request (remember this is asynchronous)
     const xhr = new XMLHttpRequest();
@@ -88,7 +94,7 @@ const parseJSON = (xhr, content) => {
     //So ours might look like  name=test&age=22
     //Again the 'name' fields in the form are the variable names in the string
     //and the variable names the server will look for.
-    const formData = `name=${nameField.value}&age=${ageField.value}`;
+    const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}`;
     
     //send our request with the data
     xhr.send(formData);
@@ -97,15 +103,34 @@ const parseJSON = (xhr, content) => {
     return false;
   };
 
+  const requestUpdate = (e, userForm) => {
+    const url = userForm.querySelector('#urlField').value;
+    
+    e.preventDefault();
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+
+    xhr.setRequestHeader('Accept', 'application/json');
+
+    xhr.onload = () => handleResponse(xhr);
+
+    xhr.send();
+    return false; //html bubbling, stops all events
+  };
+
   const init = () => {
     //grab form
-    const nameForm = document.querySelector('#nameForm');
+    const dataField = document.querySelector('#dataField');
+    const userForm = document.querySelector('#userForm');
     
     //create handler
-    const addUser = (e) => sendPost(e, nameForm);
+    const addData = (e) => sendPost(e, dataField);
+    const getData = (e) => requestUpdate(e, userForm);
     
     //attach submit event (for clicking submit or hitting enter)
-    nameForm.addEventListener('submit', addUser);
+    dataField.addEventListener('submit', addData);
+    userForm.addEventListener('submit', getData);
   };
 
   window.onload = init;

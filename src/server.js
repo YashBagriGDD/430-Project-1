@@ -11,8 +11,8 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 //handle POST requests
 const handlePost = (request, response, parsedUrl) => {
-  //if post is to /addUser (our only POST url)
-  if (parsedUrl.pathname === '/addUser') {
+  //if post is to /addData (our only POST url)
+  if (parsedUrl.pathname === '/addData') {
     const res = response;
 
     //uploads come in as a byte stream that we need 
@@ -43,8 +43,8 @@ const handlePost = (request, response, parsedUrl) => {
       //Parse the string into an object by field name
       const bodyParams = query.parse(bodyString);
 
-      //pass to our addUser function
-      jsonHandler.addUser(request, res, bodyParams);
+      //pass to our addData function
+      jsonHandler.addData(request, res, bodyParams);
     });
   }
 };
@@ -53,7 +53,7 @@ const urlStruct = {
   '/style.css': htmlHandler.getCSS,
   '/': htmlHandler.getIndex,
   '/bundle.js': htmlHandler.getBundle,
-  '/getUser': jsonHandler.getUsers,
+  '/getData': jsonHandler.getData,
   notFound: jsonHandler.notFound,
 };
 
