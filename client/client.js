@@ -38,6 +38,9 @@ const parseJSON = (xhr, content) => {
       case 400: //bad request
         content.innerHTML = `<b>Bad Request</b>`;
         break;
+      case 401: //unauthorized
+        content.innerHTML = `<b>Unauthorized to access this.</b>`
+        break;
       default: //any other status code
         content.innerHTML = `Error code not implemented by client.`;
         break;

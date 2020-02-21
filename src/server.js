@@ -53,6 +53,7 @@ const urlStruct = {
   '/': htmlHandler.getIndex,
   '/style.css': htmlHandler.getCSS,
   '/bundle.js': htmlHandler.getBundle,
+  '/getUser': jsonHandler.getUsers,
   notFound: jsonHandler.notFound,
 };
 
