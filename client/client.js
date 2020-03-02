@@ -15,9 +15,22 @@ const parseJSON = (xhr, content) => {
     if(obj.cards) {
       const filter = document.querySelector("#filterField");
       for (let c in obj.cards) {
-        if (!filter.value || obj.cards[c].subject === filter.value.toUpperCase()) {
-          const cardList = document.createElement('p');
-          let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b>`
+        if (!filter.value || obj.cards[c].subject === filter.value) {
+          const cardList = document.createElement('div');
+          // let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b> Image: <img src="${obj.cards[c].image}">`;
+          // let cardContent = `
+          //   <div class="notecard">
+          //     <div class="front">
+          //       <h4>${obj.cards[c].title}</h4>
+          //       <p>${obj.cards[c].desc}</p>
+          //       <p>${obj.cards[c].subject}</p>
+          //     </div>
+          //     <div class="back">
+          //       <img src="${obj.cards[c].image}">
+          //     </div>
+          //   </div>
+          // `;
+          let cardContent = `<div class="notecard"><div class="front"><h1>${obj.cards[c].title}</h1><p>${obj.cards[c].desc}</p><p>${obj.cards[c].subject}</p></div><div class="back"><img src="${obj.cards[c].image}"></div></div>`;
           cardList.innerHTML += cardContent;
           content.appendChild(cardList);
         }
@@ -72,6 +85,7 @@ const parseJSON = (xhr, content) => {
     const titleField = dataField.querySelector('#titleField');
     const descField = dataField.querySelector('#descField');
     const subjectField = dataField.querySelector('#subjectField');
+    const imageField = dataField.querySelector('#imageField');
     
     //create a new Ajax request (remember this is asynchronous)
     const xhr = new XMLHttpRequest();
@@ -97,7 +111,7 @@ const parseJSON = (xhr, content) => {
     //So ours might look like  name=test&age=22
     //Again the 'name' fields in the form are the variable names in the string
     //and the variable names the server will look for.
-    const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}`;
+    const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}&image=${imageField.value}`;
     
     //send our request with the data
     xhr.send(formData);
@@ -107,7 +121,7 @@ const parseJSON = (xhr, content) => {
   };
 
   const requestUpdate = (e, userForm) => {
-    const url = userForm.querySelector('#urlField').value;
+    const url = '/getData';
     
     e.preventDefault();
 

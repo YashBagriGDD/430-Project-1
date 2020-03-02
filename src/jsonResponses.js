@@ -33,14 +33,14 @@ const getData = (request, response) => {
 const addData = (request, response, body) => {
   //default json message
   const responseJSON = {
-    message: 'Title, description, and subject are required.',
+    message: 'Title, description, classification, and image are required.',
   };
 
   //check to make sure we have both fields
   //We might want more validation than just checking if they exist
   //This could easily be abused with invalid types (such as booleans, numbers, etc)
   //If either are missing, send back an error message as a 400 badRequest
-  if (!body.title || !body.desc || !body.subject) {
+  if (!body.title || !body.desc || !body.subject || !body.image) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
@@ -60,7 +60,8 @@ const addData = (request, response, body) => {
   //add or update fields for this user name
   cards[body.title].title = body.title;
   cards[body.title].desc = body.desc;
-  cards[body.title].subject = body.subject.toUpperCase();
+  cards[body.title].subject = body.subject;
+  cards[body.title].image = body.image;
 
   //if response is created, then set our created message
   //and sent response with a message

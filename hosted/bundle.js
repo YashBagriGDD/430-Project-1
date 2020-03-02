@@ -15,9 +15,22 @@ const parseJSON = (xhr, content) => {
     const filter = document.querySelector("#filterField");
 
     for (let c in obj.cards) {
-      if (!filter.value || obj.cards[c].subject === filter.value.toUpperCase()) {
-        const cardList = document.createElement('p');
-        let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b>`;
+      if (!filter.value || obj.cards[c].subject === filter.value) {
+        const cardList = document.createElement('div'); // let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b> Image: <img src="${obj.cards[c].image}">`;
+        // let cardContent = `
+        //   <div class="notecard">
+        //     <div class="front">
+        //       <h4>${obj.cards[c].title}</h4>
+        //       <p>${obj.cards[c].desc}</p>
+        //       <p>${obj.cards[c].subject}</p>
+        //     </div>
+        //     <div class="back">
+        //       <img src="${obj.cards[c].image}">
+        //     </div>
+        //   </div>
+        // `;
+
+        let cardContent = `<div class="notecard"><div class="front"><h1>${obj.cards[c].title}</h1><p>${obj.cards[c].desc}</p><p>${obj.cards[c].subject}</p></div><div class="back"><img src="${obj.cards[c].image}"></div></div>`;
         cardList.innerHTML += cardContent;
         content.appendChild(cardList);
       }
@@ -55,6 +68,11 @@ const handleResponse = xhr => {
       content.innerHTML = `<b>Unauthorized to access this.</b>`;
       break;
 
+    case 503:
+      //Service unavailable
+      content.innerHTML = `Service Unavailable`;
+      break;
+
     default:
       //any other status code
       content.innerHTML = `Error code not implemented by client.`;
@@ -76,7 +94,8 @@ const sendPost = (e, dataField) => {
 
   const titleField = dataField.querySelector('#titleField');
   const descField = dataField.querySelector('#descField');
-  const subjectField = dataField.querySelector('#subjectField'); //create a new Ajax request (remember this is asynchronous)
+  const subjectField = dataField.querySelector('#subjectField');
+  const imageField = dataField.querySelector('#imageField'); //create a new Ajax request (remember this is asynchronous)
 
   const xhr = new XMLHttpRequest(); //set the method (POST) and url (action field from form)
 
@@ -99,7 +118,7 @@ const sendPost = (e, dataField) => {
   //and the variable names the server will look for.
 
 
-  const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}`; //send our request with the data
+  const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}&image=${imageField.value}`; //send our request with the data
 
   xhr.send(formData); //return false to prevent the browser from trying to change page
 
@@ -107,7 +126,7 @@ const sendPost = (e, dataField) => {
 };
 
 const requestUpdate = (e, userForm) => {
-  const url = userForm.querySelector('#urlField').value;
+  const url = '/getData';
   e.preventDefault();
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url);

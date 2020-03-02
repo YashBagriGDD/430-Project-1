@@ -18,25 +18,46 @@
   <script src="/bundle.js"></script>
 </head>
 <body>
-  <section class="main-container">
+  <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+    <h1 class="navbar-brand">Post Card Maker</h1>
+  </header>
+
+  <section class="container-fluid">
     <section id="top">
-      <h3>Notecard Maker</h3>
       <form id="dataField" action="/addData" method="post">
-        <label for="title">Title: </label>
-        <input id="titleField" type="text" name="title" />
-        <label for="description">Description: </label>
-        <input id="descField" type="text" name="description"/>
-        <label for="subject">Subject: </label>
-        <input id="subjectField" type="text" name="subject"/>
-        <input type="submit" value="Add Notecard" />
+        <div class="form-group">
+          <label for="title">Title: </label>
+          <input class="form-control" id="titleField" type="text" name="title" />
+        </div>
+        <div class="form-group">
+          <label for="description">Description: </label>
+          <input class="form-control" id="descField" type="text" name="description"/>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject: </label>
+          <select class="custom-select" id="subjectField">
+            <option value="vacation">Vacation</option>
+            <option value="memes">Memes</option>
+            <option value="other">Other</option>
+          </select>
+        </div> 
+        <div class="form-group col-md-12">
+          <label for="image">Image Link: </label>
+          <input class="form-control" id="imageField" type="text" name="image" />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Notecard</button>
+        </div>
       </form>
       <form id="userForm" action="/getData" method="get">
-        <select id='urlField'>
-          <option value='/getData'>/getData</option>
-          <option value='/notReal'>/notReal</option>
-        </select>
+        <div class="form-group">
         <label for="filter">Display Subject: </label>
-        <input id="filterField" type="text" name="filter"/>
+          <select class="custom-select" id="filterField">
+            <option value="vacation">Vacation</option>
+            <option value="memes">Memes</option>
+            <option value="other">Other</option>
+            <option value="">All</option>
+          </select>
+        </div>
         <input type="submit" value="Get Notecard" />
       </form>
     </section>
