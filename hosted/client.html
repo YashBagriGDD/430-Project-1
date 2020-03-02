@@ -1,34 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Post Card Maker!</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <!-- Font Awesome JS -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+  <!-- My files -->
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
   <script src="/bundle.js"></script>
 </head>
 <body>
-  <section id="top">
-    <h3>Notecard Maker</h3>
-    <form id="dataField" action="/addData" method="post">
-      <label for="title">Title: </label>
-      <input id="titleField" type="text" name="title" />
-      <label for="description">Description: </label>
-      <input id="descField" type="text" name="description"/>
-      <label for="subject">Subject: </label>
-      <input id="subjectField" type="text" name="subject"/>
-      <input type="submit" value="Add Notecard" />
-    </form>
-    <form id="userForm" action="/getData" method="get">
-      <select id='urlField'>
-        <option value='/getData'>/getData</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <label for="filter">Display Subject: </label>
-      <input id="filterField" type="text" name="filter"/>
-      <input type="submit" value="Get Notecard" />
-    </form>
-  </section>
-  <section id="content">
+  <section class="main-container">
+    <section id="top">
+      <h3>Notecard Maker</h3>
+      <form id="dataField" action="/addData" method="post">
+        <label for="title">Title: </label>
+        <input id="titleField" type="text" name="title" />
+        <label for="description">Description: </label>
+        <input id="descField" type="text" name="description"/>
+        <label for="subject">Subject: </label>
+        <input id="subjectField" type="text" name="subject"/>
+        <input type="submit" value="Add Notecard" />
+      </form>
+      <form id="userForm" action="/getData" method="get">
+        <select id='urlField'>
+          <option value='/getData'>/getData</option>
+          <option value='/notReal'>/notReal</option>
+        </select>
+        <label for="filter">Display Subject: </label>
+        <input id="filterField" type="text" name="filter"/>
+        <input type="submit" value="Get Notecard" />
+      </form>
+    </section>
+    <section id="content">
+    </section>
   </section>
 </body>
 </html>
