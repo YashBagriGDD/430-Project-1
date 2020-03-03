@@ -114,7 +114,7 @@ body {
 }
 
 #sidebar.active {
-  margin-left: -350px;
+  margin-left: -250px;
 }
 
 #sidebarCollapse {
