@@ -1,13 +1,11 @@
 //function to parse our response
 const parseJSON = (xhr, content) => {
   //parse response (obj will be empty in a 204 updated)
-  const obj = JSON.parse(xhr.response);
-  console.dir(obj); //if message in response, add to screen
+  const obj = JSON.parse(xhr.response); //if message in response, add to screen
 
   if (obj.message) {
-    const p = document.createElement('p');
-    p.textContent = `Message: ${obj.message}`;
-    content.appendChild(p);
+    const p = document.getElementById("status");
+    p.innerHTML = `<p>${obj.message}<p>`;
   } //if cards in response, add to screen
 
 
@@ -16,21 +14,8 @@ const parseJSON = (xhr, content) => {
 
     for (let c in obj.cards) {
       if (!filter.value || obj.cards[c].subject === filter.value) {
-        const cardList = document.createElement('div'); // let cardContent = `Title: <b>${obj.cards[c].title}</b> Description: <b>${obj.cards[c].desc}</b> Subject: <b>${obj.cards[c].subject}</b> Image: <img src="${obj.cards[c].image}">`;
-        // let cardContent = `
-        //   <div class="notecard">
-        //     <div class="front">
-        //       <h4>${obj.cards[c].title}</h4>
-        //       <p>${obj.cards[c].desc}</p>
-        //       <p>${obj.cards[c].subject}</p>
-        //     </div>
-        //     <div class="back">
-        //       <img src="${obj.cards[c].image}">
-        //     </div>
-        //   </div>
-        // `;
-
-        let cardContent = `<div class="notecard"><div class="front"><h1>${obj.cards[c].title}</h1><p>${obj.cards[c].desc}</p><p>${obj.cards[c].subject}</p></div><div class="back"><img src="${obj.cards[c].image}"></div></div>`;
+        const cardList = document.createElement('div');
+        let cardContent = `<div class="notecard"><div class="front"><h1 class="title">${obj.cards[c].title}</h1><p class="desc">${obj.cards[c].desc}</p><p class="subject">${obj.cards[c].subject}</p></div><div class="back"><img src="${obj.cards[c].image}"></div></div>`;
         cardList.innerHTML += cardContent;
         content.appendChild(cardList);
       }
@@ -45,37 +30,37 @@ const handleResponse = xhr => {
   switch (xhr.status) {
     case 200:
       //success
-      content.innerHTML = `<b>Success</b>`;
+      content.innerHTML = `<div id="status" class="alert alert-success" role="alert">Success</div>`;
       break;
 
     case 201:
       //created
-      content.innerHTML = '<b>Create</b>';
+      content.innerHTML = '<div id="status" class="alert alert-success" role="alert">Create</div>';
       break;
 
     case 204:
       //updated (no response back from server)
-      content.innerHTML = '<b>Updated (No Content)</b>';
+      content.innerHTML = '<div id="status" class="alert alert-secondary" role="alert">Updated (No Content)</div>';
       return;
 
     case 400:
       //bad request
-      content.innerHTML = `<b>Bad Request</b>`;
+      content.innerHTML = `<div id="status" class="alert alert-danger" role="alert">Bad Request</div>`;
       break;
 
     case 401:
       //unauthorized
-      content.innerHTML = `<b>Unauthorized to access this.</b>`;
+      content.innerHTML = `<div id="status" class="alert alert-danger" role="alert">Unauthorized to access this.</div>`;
       break;
 
     case 503:
       //Service unavailable
-      content.innerHTML = `Service Unavailable`;
+      content.innerHTML = `<div id="status" class="alert alert-danger" role="alert">Service Unavailable</div>`;
       break;
 
     default:
       //any other status code
-      content.innerHTML = `Error code not implemented by client.`;
+      content.innerHTML = `<div id="status" class="alert alert-danger" role="alert">Error code not implemented by client.</div>`;
       break;
   } //parse response 
 
@@ -149,7 +134,15 @@ const init = () => {
 
 
   dataField.addEventListener('submit', addData);
-  userForm.addEventListener('submit', getData);
+  userForm.addEventListener('submit', getData); // Sidebar work
+
+  document.querySelector('#sidebarCollapse').onclick = e => {
+    if (document.getElementById('sidebar').classList.contains("active")) {
+      document.getElementById('sidebar').classList.remove("active");
+    } else {
+      document.getElementById('sidebar').classList.add("active");
+    }
+  };
 };
 
 window.onload = init;
