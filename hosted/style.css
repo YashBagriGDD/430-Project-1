@@ -116,3 +116,7 @@ body {
 #sidebar.active {
   margin-left: -350px;
 }
+
+#sidebarCollapse {
+  padding-right: 10px;
+}

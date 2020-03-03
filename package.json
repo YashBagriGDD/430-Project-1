@@ -1,7 +1,7 @@
 {
-  "name": "simple_http",
+  "name": "Project_1",
   "version": "0.0.0",
-  "description": "A simple HTTP example using status codes.",
+  "description": "A postcard maker making use of a self made API.",
   "main": "./src/server.js",
   "scripts": {
     "start": "node ./src/server.js",
@@ -11,7 +11,7 @@
     "build": "babel ./client --out-file ./hosted/bundle.js",
     "watch": "babel --watch ./client --out-file ./hosted/bundle.js"
   },
-  "author": "Cody Van De Mark",
+  "author": "Yash Bagri",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.8.4",

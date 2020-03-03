@@ -70,45 +70,25 @@ const handleResponse = xhr => {
 
 
 const sendPost = (e, dataField) => {
-  //prevent the browser's default action (to send the form on its own)
-  e.preventDefault(); //grab the forms action (url to go to)
-  //and method (HTTP method - POST in this case)
-
+  e.preventDefault();
   const nameAction = dataField.getAttribute('action');
-  const nameMethod = dataField.getAttribute('method'); //grab the form's name and age fields so we can check user input
-
+  const nameMethod = dataField.getAttribute('method');
   const titleField = dataField.querySelector('#titleField');
   const descField = dataField.querySelector('#descField');
   const subjectField = dataField.querySelector('#subjectField');
-  const imageField = dataField.querySelector('#imageField'); //create a new Ajax request (remember this is asynchronous)
+  const imageField = dataField.querySelector('#imageField');
+  const xhr = new XMLHttpRequest();
+  xhr.open(nameMethod, nameAction);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('Accept', 'application/json');
 
-  const xhr = new XMLHttpRequest(); //set the method (POST) and url (action field from form)
+  xhr.onload = () => handleResponse(xhr);
 
-  xhr.open(nameMethod, nameAction); //set our request type to x-www-form-urlencoded
-  //which is one of the common types of form data. 
-  //This type has the same format as query strings key=value&key2=value2
-
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //set our requested response type in hopes of a JSON response
-
-  xhr.setRequestHeader('Accept', 'application/json'); //set our function to handle the response
-
-  xhr.onload = () => handleResponse(xhr); //build our x-www-form-urlencoded format. Without ajax the 
-  //browser would do this automatically but it forcefully changes pages
-  //which we don't want.
-  //The format is the same as query strings, so key=value&key2=value2
-  //The 'name' fields from the inputs are the variable names sent to
-  //the server. 
-  //So ours might look like  name=test&age=22
-  //Again the 'name' fields in the form are the variable names in the string
-  //and the variable names the server will look for.
-
-
-  const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}&image=${imageField.value}`; //send our request with the data
-
-  xhr.send(formData); //return false to prevent the browser from trying to change page
-
+  const formData = `title=${titleField.value}&desc=${descField.value}&subject=${subjectField.value}&image=${imageField.value}`;
+  xhr.send(formData);
   return false;
-};
+}; // Handles sending the data to the server with GET
+
 
 const requestUpdate = (e, userForm) => {
   const url = '/getData';

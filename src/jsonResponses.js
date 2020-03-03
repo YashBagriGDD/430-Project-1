@@ -1,8 +1,4 @@
-//wth heroku
-// Note this object is purely in memory
-// When node shuts down this will be cleared.
-// Same when your heroku app shuts down from inactivity
-// We will be working with databases in the next few weeks.
+// Local memory for the card stack
 const cards = {};
 
 //function to respond with a json object
@@ -36,10 +32,6 @@ const addData = (request, response, body) => {
     message: 'Title, description, classification, and image are required.',
   };
 
-  //check to make sure we have both fields
-  //We might want more validation than just checking if they exist
-  //This could easily be abused with invalid types (such as booleans, numbers, etc)
-  //If either are missing, send back an error message as a 400 badRequest
   if (!body.title || !body.desc || !body.subject || !body.image) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
@@ -53,7 +45,6 @@ const addData = (request, response, body) => {
   if (cards[body.title]) {
     responseCode = 204;
   } else {
-    //otherwise create an object with that name
     cards[body.title] = {};
   }
 
@@ -69,12 +60,11 @@ const addData = (request, response, body) => {
     responseJSON.message = 'Created Successfully';
     return respondJSON(request, response, responseCode, responseJSON);
   }
-  // 204 has an empty payload, just a success
-  // It cannot have a body, so we just send a 204 without a message
-  // 204 will not alter the browser in any way!!!
+
   return respondJSONMeta(request, response, responseCode);
 };
 
+//Handles the 404 not found response
 const notFound = (request, response) => {
   const responseJSON = {
     message: 'The page you are looking for was not found.',
